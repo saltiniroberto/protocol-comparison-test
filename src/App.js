@@ -660,12 +660,19 @@ export default function App() {
     return result;
   }, [propItems, probItems, rowOrders, hiddenProps, collapsedSections]);
 
-  // rankItems: sortFirst section first, then the other — drives column order
+  // rankItems: sortFirst section first, then the other — respects drag order
   const rankItems = useMemo(() => {
-    const props = propItems.filter(i => !hiddenProps.has(i.label));
-    const probs = probItems.filter(i => !hiddenProps.has(i.label));
+    const applyOrder = (items, order) => {
+      if (!order) return items;
+      const byLabel = Object.fromEntries(items.map(i => [i.label, i]));
+      const inOrder = order.filter(l => byLabel[l]).map(l => byLabel[l]);
+      const rest = items.filter(i => !order.includes(i.label));
+      return [...inOrder, ...rest];
+    };
+    const props = applyOrder(propItems, rowOrders.properties).filter(i => !hiddenProps.has(i.label));
+    const probs = applyOrder(probItems, rowOrders.problems).filter(i => !hiddenProps.has(i.label));
     return sortFirst === "properties" ? [...props, ...probs] : [...probs, ...props];
-  }, [propItems, probItems, hiddenProps, sortFirst]);
+  }, [propItems, probItems, rowOrders, hiddenProps, sortFirst]);
 
   // Lexicographic sort of protocol columns — always active
   const sortedProtocols = useMemo(() => {
