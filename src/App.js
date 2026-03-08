@@ -342,6 +342,7 @@ export default function App() {
     const map = {};
     protocols.forEach(p => {
       Object.entries(p.properties).forEach(([label, val]) => {
+        if (!PROPERTY_META[label]) return;
         if (!map[label]) map[label] = { label, values:{}, kind:"bool" };
         map[label].values[p.id] = val;
         if (typeof val === "number") map[label].kind = "numeric";
@@ -735,8 +736,7 @@ export default function App() {
                                 </span>
                               );
                             })()}
-                            {kind==="numeric"&&<span style={{fontSize:8,fontWeight:500,color:meta.color,opacity:0.8,background:meta.bg,border:`1px solid ${meta.color}30`,borderRadius:3,padding:"1px 4px",flexShrink:0}}>№</span>}
-                            {kind==="string"&&<span style={{fontSize:8,fontWeight:500,color:meta.color,opacity:0.8,background:meta.bg,border:`1px solid ${meta.color}30`,borderRadius:3,padding:"1px 4px",flexShrink:0}}>abc</span>}
+
                             <div
                               onMouseEnter={desc && !clickRankMode ? e => showTooltip(e, problemName ?? label, desc) : undefined}
                               onMouseLeave={desc && !clickRankMode ? hideTooltip : undefined}

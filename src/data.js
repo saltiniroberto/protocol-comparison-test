@@ -1,12 +1,4 @@
 export const PROPERTY_META = {
-  "Safety": {
-    type:"bool", rank:"true-better",
-    desc: "A protocol is safe if it never returns different values to different nodes for the same consensus instance — i.e. once a value is decided, no other value can ever be decided. Safety is a non-negotiable baseline: a protocol that violates it can produce inconsistent state across the system, which is typically catastrophic. All practical consensus protocols guarantee safety under any number of failures, as long as a quorum is reachable. See [Lamport's paper on safety & liveness](https://lamport.azurewebsites.net/pubs/safety-liveness.pdf) for the formal treatment.",
-  },
-  "Liveness (async network)": {
-    type:"bool", rank:"true-better",
-    desc: "Liveness means the protocol will eventually make progress and reach a decision. The [FLP impossibility result](https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf) (Fischer, Lynch, Paterson, 1985) proves that no deterministic consensus protocol can guarantee both safety and liveness in a fully asynchronous network where even one node may crash. In practice, protocols achieve liveness by assuming partial synchrony (eventual message delivery bounds) or by using randomisation. Without liveness, the system may stall indefinitely under adverse network conditions.",
-  },
   "Byzantine fault tolerance": {
     type:"bool", rank:"true-better",
     desc: "A Byzantine fault occurs when a node behaves arbitrarily — sending conflicting messages, lying about its state, or colluding with other faulty nodes. Byzantine fault-tolerant (BFT) protocols remain safe even when up to f nodes behave maliciously, as long as the total number of nodes n ≥ 3f+1. Non-BFT protocols only handle crash faults (nodes that stop responding), which is a much weaker adversary. BFT is essential in open or adversarial settings such as blockchains, but adds significant complexity and communication overhead. The concept originates in the [Byzantine Generals problem](https://lamport.azurewebsites.net/pubs/byz.pdf) by Lamport, Shostak, and Pease.",
